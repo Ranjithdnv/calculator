@@ -176,7 +176,7 @@ function App() {
     setNotes(valid);
     setCurrentNote(valid[valid.length - 1]);
   }, []);
-  const [form] = Form.useForm();
+
   return (
     <div className="min-h-screen bg-white dark:bg-black py-10">
       <div className="max-w-2xl mx-auto mb-6">
