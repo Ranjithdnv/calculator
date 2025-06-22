@@ -1,7 +1,173 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import "./App.css";
-import "easyform-ant-tailwind/dist/index.css";
+import "easzy-form/dist/index.css";
 
+const formFields3 = [
+  {
+    label: "Name",
+    name: "name",
+    borderRadius: "10px",
+    type: "text",
+
+    rules: [
+      { required: false, message: "Name is required" },
+      { min: 6, message: "Name must be at least 6 characters" },
+    ],
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    label: "Email",
+    borderRadius: "0px",
+    name: "email",
+    type: "email",
+    rules: [
+      { required: false, message: "Email is required" },
+      //  { type: "email", message: "Enter a valid email" },
+      {
+        pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/,
+        message: "Please enter a valid email format",
+      },
+    ],
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    label: "Password",
+    borderRadius: "0px",
+    name: "password",
+    type: "password",
+    rules: [
+      { required: false, message: "Password is required" },
+      { min: 6, message: "Password must be at least 6 characters" },
+    ],
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    name: "country",
+    label: "Country",
+    borderRadius: "0px",
+    type: "autocomplete",
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+    options: [
+      { label: "India", value: "IN" },
+      { label: "USA", value: "US" },
+      { label: "Germany", value: "DE" },
+      { label: "Canada", value: "CA" },
+    ],
+    rules: [{ required: false, message: "Please select your country" }],
+  },
+  {
+    type: "phone",
+    label: "Phone Number",
+    borderRadius: "10px",
+    name: "phoneNumber",
+    rules: [
+      { required: false, message: "Phone number is required" },
+      {
+        pattern: /^[0-9]{10}$/,
+        message: "Enter a valid 10-digit phone number",
+      },
+    ],
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    label: "Age",
+    name: "age",
+    type: "number",
+    borderRadius: "0px",
+    rules: [{ required: false, message: "Age is required" }],
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    label: "City",
+    name: "city",
+    borderRadius: "0px",
+    type: "select",
+    options: ["New York", "Los Angeles", "Chicago", "Houston"],
+    rules: [{ required: false, message: "Please select a city" }],
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    label: "Date of Birth",
+    name: "dob",
+    type: "date",
+    borderRadius: "10px",
+    rules: [{ required: false, message: "Date of Birth is required" }],
+    colSpan: { xs: 24, sm: 6, lg: 6 },
+  },
+  {
+    label: "Start Date",
+    name: "startDate",
+    type: "date",
+    rules: [{ required: false, message: "Start Date is required" }],
+    colSpan: { xs: 24, sm: 6, lg: 6 },
+  },
+  {
+    label: "Meeting Time",
+    borderRadius: "0px",
+    name: "meetingTime",
+    type: "time",
+    rules: [{ required: false, message: "Please select a time" }],
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    label: "Gender",
+    name: "gender",
+    type: "radio",
+    options: ["Male", "Female", "Other"],
+    rules: [{ required: false, message: "Please select your gender" }],
+    colSpan: { xs: 24, sm: 12, lg: 6 },
+  },
+  {
+    label: "Subscribe to Newsletter",
+    name: "subscribe",
+    type: "checkbox",
+    // rules: [
+    //   {
+    //     validator: (_, value) =>
+    //       value
+    //         ? Promise.resolve()
+    //         : Promise.reject(new Error("Please subscribe to continue")),
+    //   },
+    // ],
+    colSpan: { xs: 24, sm: 12, lg: 6 },
+  },
+  {
+    label: "Bio",
+    name: "bio",
+    type: "textarea",
+    rules: [{ required: false, message: "Please enter your bio" }],
+    colSpan: { xs: 24, sm: 24, lg: 24 },
+    row: 4,
+  },
+
+  {
+    label: "Receive Updates",
+    name: "receiveUpdates",
+    type: "switch",
+    colSpan: { xs: 24, sm: 12, lg: 12 },
+  },
+  {
+    type: "upload",
+    name: "resume",
+    label: "Resume",
+    customcolour: "pink",
+
+    // rules: [{ required: false, message: "Please upload your resume" }],
+    accept: ".pdf,.doc,.docx ,.png,.jpg,.mkv",
+    maxSize: 50000, // MB
+    minSize: 0.1, // MB
+
+    colSpan: { xs: 24, sm: 12, lg: 10 },
+  },
+  {
+    name: "consent",
+    label: "Consent to Proceed",
+    type: "checkbox", // checkbox to indicate consent
+    required: false, // this field is required
+    colSpan: { xs: 24, sm: 12, lg: 6 },
+    sm: 24, // full width on small screens
+  },
+];
 // your exported component
 // import "antd/dist/reset.css"; // if you're using Ant Design
 // import "testlib/dist/index.css";
@@ -144,13 +310,495 @@ function KeepNoteInputs({ noteId, onSave }) {
     </div>
   );
 }
-
+import { createForm, resetFormFields } from "easzy-formjs";
 // Main App Component
+// ✅ Don't forget useRef
+import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
+import C1 from "./compo/c1";
+import C2 from "./compo/c2";
+import C3 from "./compo/c3";
+import C4 from "./compo/c4";
+
 function App() {
+  const ref = useRef(null);
+
   const [notes, setNotes] = useState([1]);
   const [currentNote, setCurrentNote] = useState(1);
 
-  // Create a new note
+  function handleSubmit(data, form, formFields) {
+    console.log(data);
+    // const formData = new FormData(form); // 📦 Collects all input values, including files
+
+    // // ✅ Optional: Print all values for debugging
+    // console.log("FormData values:");
+    // for (let [key, value] of formData.entries()) {
+    //   if (value instanceof File) {
+    //     console.log(
+    //       `${key}: File ->`,
+    //       value.name,
+    //       value.type,
+    //       value.size + " bytes"
+    //     );
+    //   } else {
+    //     console.log(`${key}:`, value);
+    //   }
+    // }
+
+    // // ✅ Store PDF file (example)
+    // const pdfFile = formData.get("resume");
+    // if (pdfFile && pdfFile.type === "application/pdf") {
+    //   // You can now send this file to backend or preview it
+    //   console.log("📄 PDF File selected:", pdfFile.name);
+    // } else {
+    //   console.warn("❌ No PDF file selected or wrong type.");
+    // }
+
+    alert("✅ Form submitted successfully!");
+
+    // ✅ Reset the form fields after submission
+    resetFormFields(form, formFields);
+  }
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountry2, setSelectedCountry2] = useState("");
+
+  const testCases = [
+    {
+      label: "Username - Required & Min 5",
+      field: {
+        name: "username",
+        rules: [
+          { required: true, message: "Username is required" },
+          { min: 5, message: "Min 5 characters" },
+        ],
+      },
+      values: ["", "raj", "superman"],
+    },
+    {
+      label: "Password - Required, Min 6, Pattern (no spaces)",
+      field: {
+        name: "password",
+        rules: [
+          { required: true, message: "Password required" },
+          { min: 6, message: "Min 6 characters" },
+          { pattern: /^\S+$/, message: "No spaces allowed" },
+        ],
+      },
+      values: ["", "pass", "pass word", "mypassword"],
+    },
+    {
+      label: "Email - Pattern check",
+      field: {
+        name: "email",
+        rules: [
+          { required: true, message: "Email required" },
+          {
+            pattern: /^[\w.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+            message: "Invalid email format",
+          },
+        ],
+      },
+      values: ["", "user@", "valid@email.com"],
+    },
+    {
+      label: "Phone - Only Numbers, Min 10",
+      field: {
+        name: "phone",
+        rules: [
+          { required: true, message: "Phone required" },
+          { min: 10, message: "Min 10 digits" },
+          { pattern: /^\d+$/, message: "Only digits allowed" },
+        ],
+      },
+      values: ["", "12345", "12345abc", "9876543210"],
+    },
+    {
+      label: "Bio - Optional, Min 10 if present",
+      field: {
+        name: "bio",
+        rules: [
+          {
+            min: 10,
+            message: "If entered, bio must be at least 10 characters",
+          },
+        ],
+      },
+      values: ["", "Short", "I love programming and learning"],
+    },
+    {
+      label: "Zip Code - 6 digits only",
+      field: {
+        name: "zipcode",
+        rules: [
+          {
+            pattern: /^\d{6}$/,
+            message: "ZIP must be 6 digits",
+          },
+        ],
+      },
+      values: ["", "123", "123456", "abcd12", "654321"],
+    },
+    {
+      label: "Gender - Required (Radio)",
+      field: {
+        name: "gender",
+        rules: [{ required: true, message: "Please select gender" }],
+      },
+      values: ["", "Male"],
+    },
+    {
+      label: "Checkbox - Terms & Conditions",
+      field: {
+        name: "terms",
+        rules: [{ required: true, message: "Please accept terms" }],
+      },
+      values: ["", "true"],
+    },
+    {
+      label: "File Upload - Resume Name Required",
+      field: {
+        name: "resume",
+        rules: [{ required: true, message: "Resume is required" }],
+      },
+      values: ["", "resume.doc"],
+    },
+    {
+      label: "City - Autocomplete Required",
+
+      name: "city",
+      rules: [{ required: true, message: "City is required" }],
+
+      values: ["", "Hyderabad"],
+    },
+  ];
+  const test1 = [
+    //   {
+    //     label: "Full Name",
+    //     name: "full_name",
+    //     type: "text",
+    //     hideWhen: "avatar",
+    //     disable: "age",
+    //     placeholder: "Your full name",
+    //     icon: "fa:fa-user",
+    //     iconStyle: { fontSize: "16px", color: "#2980b9", margin: "0 6px" },
+    //     rules: [{ required: true, message: "Name is required" }],
+    //     colSpan: { xs: 24, sm: 12, md: 12 },
+    //   },
+    //   {
+    //     label: "Age",
+    //     name: "age",
+    //     type: "number",
+    //     hideWhen: "avatar",
+    //     placeholder: "Enter your age",
+    //     icon: "fa:fa-hashtag",
+    //     iconStyle: { fontSize: "16px", color: "orange", margin: "0 6px" },
+    //     rules: [{ required: true, message: "Age is required" }],
+    //     colSpan: { xs: 24, sm: 6, md: 6 },
+    //   },
+    {
+      label: "Profile Picture2",
+      name: "avatar2",
+      type: "upload",
+      accept: "image/*",
+      icon: "fa:fa-image",
+      iconStyle: { fontSize: "16px", color: "#27ae60", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 12 },
+      rules: [{ required: true, message: "Profile picture is required" }],
+    },
+    {
+      label: "Date of Joining",
+      name: "joining_date",
+      hideWhen: "age",
+      type: "date",
+      placeholder: "Select joining date",
+      icon: "fa:fa-calendar-plus",
+      iconStyle: { fontSize: "16px", color: "#8e44ad", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 6 },
+      rules: [{ required: true, message: "Joining date is required" }],
+    },
+    {
+      label: "Available Time",
+      name: "available_time",
+      hideWhen: "joining_date",
+      type: "time",
+      placeholder: "Pick a time",
+      icon: "fa:fa-clock",
+      iconStyle: { fontSize: "16px", color: "#34495e", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 6 },
+    },
+    {
+      label: "Department",
+      name: "department",
+      hideWhen: "available_time",
+      type: "select",
+      // onChange: (val, field, input) => {
+      //   selectedCountry.current = val;
+
+      //   // 🔁 Dynamically update the skills field's options
+      //   const skillsField = formFields.find((f) => f.name === "skills");
+      //   if (skillsField) {
+      //     skillsField.options =
+      //       val === "Marketing"
+      //         ? [
+      //             { label: "Python", value: "py" },
+      //             { label: "React", value: "react" },
+      //           ]
+      //         : val === "Engineering"
+      //         ? [
+      //             { label: "JavaScript", value: "js" },
+      //             { label: "Node.js", value: "node" },
+      //           ]
+      //         : [];
+      //   }
+
+      //   // 🧠 Now force dropdown re-render manually (optional)
+      //   const skillsInput = form.querySelector(`[name="skills"]`);
+      //   if (skillsInput) {
+      //     const event = new Event("focus");
+      //     skillsInput.dispatchEvent(event);
+      //   }
+      // },
+      placeholder: "Select department",
+      options: ["Engineering", "Marketing", "HR", "Finance"],
+      icon: "fa:fa-briefcase",
+      iconStyle: { fontSize: "16px", color: "#e67e22", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 8 },
+      disable: "skills",
+    },
+    {
+      label: "Your Age or DOB",
+      name: "ageInfo",
+      type: "ageordate",
+      required: true,
+      colSpan: { xs: 24, sm: 12, md: 8 },
+    },
+    {
+      label: "Skills",
+      disable: "skills2",
+
+      name: "skills",
+      type: "select",
+      // onChange: (value) => {
+      //   setSelectedCountry2(value);
+      //   console.log(selectedCountry2, "ddddddddddd");
+      //   console.log(typeof value, value, "0066660");
+      //   console.log(formData.current, "111"); // ⬅️ Dynamically update country
+      // },
+      placeholder: "Type or select skill",
+      options:
+        selectedCountry === "Marketing"
+          ? [
+              { label: "Python", value: "py" },
+              { label: "React", value: "react" },
+            ]
+          : selectedCountry === "Engineering"
+          ? [
+              { label: "JavaScript", value: "js" },
+
+              { label: "Node.js", value: "node" },
+            ]
+          : [
+              { label: "Python", value: "py" },
+              { label: "React", value: "react" },
+            ],
+
+      icon: "fa:fa-code",
+      iconStyle: { fontSize: "16px", color: "#2c3e50", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 8 },
+    },
+
+    {
+      label: "Skills2",
+      name: "skills2",
+      type: "autocomplete",
+      placeholder: "Type or select skill",
+      options:
+        selectedCountry2 === "py" || "Python"
+          ? [
+              { label: "Python1", value: "py1" },
+              { label: "React1", value: "react1" },
+            ]
+          : selectedCountry2 === "js"
+          ? [
+              { label: "JavaScript", value: "js" },
+
+              { label: "Node.js", value: "node" },
+            ]
+          : [{ label: "Python2", value: "py3" }],
+
+      icon: "fa:fa-code",
+      iconStyle: { fontSize: "16px", color: "#2c3e50", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 8 },
+    },
+    {
+      label: "Bio",
+      disable: "location_access",
+      name: "bio",
+      type: "textarea",
+      placeholder: "Write something about yourself...",
+      rows: 5,
+      icon: "fa:fa-pencil-alt",
+      iconStyle: { fontSize: "16px", color: "#7f8c8d", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 24, md: 24 },
+    },
+    {
+      label: "Location Access",
+
+      name: "location_access",
+      type: "switch",
+      disable: "contact_method",
+      icon: "fa:fa-map-marker-alt",
+      iconStyle: { fontSize: "16px", color: "#c0392b", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 6 },
+    },
+    {
+      label: "Accept Terms & Conditions",
+      name: "accept_terms2",
+      type: "checkbox",
+      icon: "fa:fa-check",
+      iconStyle: { fontSize: "16px", color: "#16a085", margin: "0 6px" },
+      rules: [{ required: true, message: "You must accept the terms" }],
+      colSpan: { xs: 24, sm: 12, md: 6 },
+    },
+    {
+      label: "Preferred Contact Method",
+      name: "contact_method",
+      type: "radio",
+      icon: "fa:fa-phone-alt",
+      hideWhen: "accept_terms",
+      iconStyle: { fontSize: "16px", color: "#2980b9", margin: "0 6px" },
+      options: ["Email", "Phone", "WhatsApp"],
+      colSpan: { xs: 24, sm: 12, md: 8 },
+    },
+    {
+      type: "radio",
+      rules: [{ required: true, message: "You must accept the terms" }],
+      name: "selection",
+      label: "Choose Option",
+      options: ["show", "hide", "maybe"],
+      colSpan: { xs: 24, sm: 12, md: 24 },
+    },
+    {
+      type: "text",
+      name: "extraInfo",
+      label: "More Info",
+      showWhen: "selection",
+      showValue: ["show", "maybe"], // Multiple show values
+    },
+    {
+      label: "Accept Terms & Conditions",
+      name: "accept_terms3",
+      type: "checkbox",
+      showWhen: "selection",
+      showValue: ["show", "maybe"],
+      icon: "fa:fa-check",
+      iconStyle: { fontSize: "16px", color: "#16a085", margin: "0 6px" },
+      rules: [{ required: true, message: "You must accept the terms" }],
+      colSpan: { xs: 24, sm: 12, md: 6 },
+    },
+    {
+      label: "Skills2",
+      name: "skills2",
+      showWhen: "selection",
+      showValue: ["show", "maybe"],
+      type: "autocomplete",
+      placeholder: "Type or select skill",
+      options: [{ label: "Python2", value: "py3" }],
+
+      icon: "fa:fa-code",
+      iconStyle: { fontSize: "16px", color: "#2c3e50", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 8 },
+    },
+    {
+      label: "Profile Picture",
+      showWhen: "selection",
+      showValue: ["show", "maybe"],
+      name: "avatar",
+      type: "upload",
+      accept: "image/*",
+      icon: "fa:fa-image",
+      iconStyle: { fontSize: "16px", color: "#27ae60", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 12 },
+      rules: [{ required: true, message: "Profile picture is required" }],
+    },
+    {
+      label: "Date of Joining1",
+      showWhen: "selection",
+      showValue: ["show", "maybe"],
+      name: "joining_date2",
+      hideWhen: "age",
+      type: "date",
+      placeholder: "Select joining date",
+      icon: "fa:fa-calendar-plus",
+      iconStyle: { fontSize: "16px", color: "#8e44ad", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 6 },
+      rules: [{ required: true, message: "Joining date is required" }],
+    },
+    {
+      label: "Available Time",
+      name: "available_time",
+      hideWhen: "joining_date",
+      showWhen: "selection",
+      showValue: ["show", "maybe"],
+      type: "time",
+      placeholder: "Pick a time",
+      icon: "fa:fa-clock",
+      iconStyle: { fontSize: "16px", color: "#34495e", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 6 },
+    },
+    {
+      label: "Department",
+      name: "department",
+      showWhen: "selection",
+      showValue: ["show", "maybe"],
+      hideWhen: "available_time",
+      type: "select",
+
+      placeholder: "Select department",
+      options: ["Engineering", "Marketing", "HR", "Finance"],
+      icon: "fa:fa-briefcase",
+      iconStyle: { fontSize: "16px", color: "#e67e22", margin: "0 6px" },
+      colSpan: { xs: 24, sm: 12, md: 8 },
+      disable: "skills",
+    },
+    {
+      label: "Your Age or DOB",
+      showWhen: "selection",
+      showValue: ["show", "maybe"],
+      name: "ageInfo",
+      type: "ageordate",
+      //   required: true,
+      colSpan: { xs: 24, sm: 12, md: 8 },
+    },
+  ];
+
+  const formRef = useRef(null);
+  const [formData, setFormData] = useState({});
+
+  function globalInputChange(name, value, fieldConfig, data) {
+    setFormData(data); // 🧠 always persist data
+
+    console.log("🔄 Global Change:", name, value, data);
+  }
+
+  function handleSubmit(data, form, formFields) {
+    resetFormFields(form, formFields);
+    console.log("✅ Final Submit Data:", data);
+  }
+
+  useEffect(() => {
+    if (formRef.current) formRef.current.innerHTML = "";
+    console.log(formData, "pppppppppppppppppppppp");
+
+    createForm("form-container2", test1, handleSubmit, {
+      onChange: globalInputChange,
+      labelColor: "gray",
+      textColor: "gray",
+      defaultValues: formData, // 💾 Rehydrate values
+    });
+  }, [selectedCountry, selectedCountry2, formRef]); // 👈 re-render on country switch
+
+  // Note-related logic
+
   const createNewNote = () => {
     const newId = Date.now();
     const newNotes = [...notes, newId];
@@ -159,17 +807,14 @@ function App() {
     localStorage.setItem("all-note-ids", JSON.stringify(newNotes));
   };
 
-  // Switch to a note
   const loadNote = (noteId) => {
     setCurrentNote(noteId);
   };
 
-  // Save note list
   const handleSave = () => {
     localStorage.setItem("all-note-ids", JSON.stringify(notes));
   };
 
-  // Load note IDs from localStorage
   useEffect(() => {
     const savedIds = JSON.parse(localStorage.getItem("all-note-ids")) || [];
     const valid = savedIds.length > 0 ? savedIds : [1];
@@ -201,7 +846,12 @@ function App() {
         </div>
       </div>
       <KeepNoteInputs noteId={currentNote} onSave={handleSave} />
-      <div className="  border-box"> </div>
+      {/* <C1 />
+      <C2 />
+      <C3 />
+      <C4 /> */}
+      <div className="border-box" />
+      <div className=" bg-white" ref={formRef} id="form-container2" />
     </div>
   );
 }
