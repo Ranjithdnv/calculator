@@ -471,18 +471,18 @@ function App() {
     },
   ];
   const test1 = [
-    //   {
-    //     label: "Full Name",
-    //     name: "full_name",
-    //     type: "text",
-    //     hideWhen: "avatar",
-    //     disable: "age",
-    //     placeholder: "Your full name",
-    //     icon: "fa:fa-user",
-    //     iconStyle: { fontSize: "16px", color: "#2980b9", margin: "0 6px" },
-    //     rules: [{ required: true, message: "Name is required" }],
-    //     colSpan: { xs: 24, sm: 12, md: 12 },
-    //   },
+    {
+      label: "Full Name",
+      name: "full_name",
+      type: "text",
+      hideWhen: "avatar",
+      disable: "age",
+      placeholder: "Your full name",
+      icon: "fa:fa-user",
+      iconStyle: { fontSize: "16px", color: "#2980b9", margin: "0 6px" },
+      rules: [{ required: true, message: "Name is required" }],
+      colSpan: { xs: 24, sm: 12, md: 12 },
+    },
     //   {
     //     label: "Age",
     //     name: "age",
@@ -679,6 +679,7 @@ function App() {
     },
     {
       type: "text",
+      placeholder: "Your info",
       name: "extraInfo",
       label: "More Info",
       showWhen: "selection",
