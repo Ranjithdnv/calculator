@@ -697,7 +697,7 @@ function App() {
     },
     {
       label: "Skills2",
-      name: "skills2",
+      name: "skills4",
       showWhen: "selection",
       showValue: ["show", "maybe"],
       type: "autocomplete",
@@ -747,7 +747,7 @@ function App() {
     },
     {
       label: "Department",
-      name: "department",
+      name: "department21",
       showWhen: "selection",
       showValue: ["show", "maybe"],
       hideWhen: "available_time",
@@ -758,13 +758,13 @@ function App() {
       icon: "fa:fa-briefcase",
       iconStyle: { fontSize: "16px", color: "#e67e22", margin: "0 6px" },
       colSpan: { xs: 24, sm: 12, md: 8 },
-      disable: "skills",
+      disable: "skills4",
     },
     {
       label: "Your Age or DOB",
       showWhen: "selection",
       showValue: ["show", "maybe"],
-      name: "ageInfo",
+      name: "ageInfo2",
       type: "ageordate",
       //   required: true,
       colSpan: { xs: 24, sm: 12, md: 8 },
