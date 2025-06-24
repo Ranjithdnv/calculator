@@ -736,7 +736,7 @@ function App() {
     },
     {
       label: "Available Time",
-      name: "available_time",
+      name: "available_time2",
       hideWhen: "joining_date",
       showWhen: "selection",
       showValue: ["show", "maybe"],
