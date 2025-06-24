@@ -723,10 +723,7 @@ function App() {
     },
     {
       label: "Date of Joining1",
-      showWhen: "selection",
-      showValue: ["show", "maybe"],
       name: "joining_date2",
-      hideWhen: "age",
       type: "date",
       placeholder: "Select joining date",
       icon: "fa:fa-calendar-plus",
@@ -737,9 +734,7 @@ function App() {
     {
       label: "Available Time",
       name: "available_time2",
-      hideWhen: "joining_date",
-      showWhen: "selection",
-      showValue: ["show", "maybe"],
+
       type: "time",
       placeholder: "Pick a time",
       icon: "fa:fa-clock",
