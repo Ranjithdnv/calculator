@@ -361,115 +361,6 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCountry2, setSelectedCountry2] = useState("");
 
-  const testCases = [
-    {
-      label: "Username - Required & Min 5",
-      field: {
-        name: "username",
-        rules: [
-          { required: true, message: "Username is required" },
-          { min: 5, message: "Min 5 characters" },
-        ],
-      },
-      values: ["", "raj", "superman"],
-    },
-    {
-      label: "Password - Required, Min 6, Pattern (no spaces)",
-      field: {
-        name: "password",
-        rules: [
-          { required: true, message: "Password required" },
-          { min: 6, message: "Min 6 characters" },
-          { pattern: /^\S+$/, message: "No spaces allowed" },
-        ],
-      },
-      values: ["", "pass", "pass word", "mypassword"],
-    },
-    {
-      label: "Email - Pattern check",
-      field: {
-        name: "email",
-        rules: [
-          { required: true, message: "Email required" },
-          {
-            pattern: /^[\w.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
-            message: "Invalid email format",
-          },
-        ],
-      },
-      values: ["", "user@", "valid@email.com"],
-    },
-    {
-      label: "Phone - Only Numbers, Min 10",
-      field: {
-        name: "phone",
-        rules: [
-          { required: true, message: "Phone required" },
-          { min: 10, message: "Min 10 digits" },
-          { pattern: /^\d+$/, message: "Only digits allowed" },
-        ],
-      },
-      values: ["", "12345", "12345abc", "9876543210"],
-    },
-    {
-      label: "Bio - Optional, Min 10 if present",
-      field: {
-        name: "bio",
-        rules: [
-          {
-            min: 10,
-            message: "If entered, bio must be at least 10 characters",
-          },
-        ],
-      },
-      values: ["", "Short", "I love programming and learning"],
-    },
-    {
-      label: "Zip Code - 6 digits only",
-      field: {
-        name: "zipcode",
-        rules: [
-          {
-            pattern: /^\d{6}$/,
-            message: "ZIP must be 6 digits",
-          },
-        ],
-      },
-      values: ["", "123", "123456", "abcd12", "654321"],
-    },
-    {
-      label: "Gender - Required (Radio)",
-      field: {
-        name: "gender",
-        rules: [{ required: true, message: "Please select gender" }],
-      },
-      values: ["", "Male"],
-    },
-    {
-      label: "Checkbox - Terms & Conditions",
-      field: {
-        name: "terms",
-        rules: [{ required: true, message: "Please accept terms" }],
-      },
-      values: ["", "true"],
-    },
-    {
-      label: "File Upload - Resume Name Required",
-      field: {
-        name: "resume",
-        rules: [{ required: true, message: "Resume is required" }],
-      },
-      values: ["", "resume.doc"],
-    },
-    {
-      label: "City - Autocomplete Required",
-
-      name: "city",
-      rules: [{ required: true, message: "City is required" }],
-
-      values: ["", "Hyderabad"],
-    },
-  ];
   const test1 = [
     {
       label: "Full Name",
@@ -638,7 +529,7 @@ function App() {
       rows: 5,
       icon: "fa:fa-pencil-alt",
       iconStyle: { fontSize: "16px", color: "#7f8c8d", margin: "0 6px" },
-      colSpan: { xs: 24, sm: 24, md: 24 },
+      colSpan: { xs: 24, sm: 24, md: 12 },
     },
     {
       label: "Location Access",
@@ -787,8 +678,9 @@ function App() {
 
     createForm("form-container2", test1, handleSubmit, {
       onChange: globalInputChange,
-      labelColor: "gray",
-      textColor: "gray",
+      labelColor: "pink",
+      textColor: "pink",
+      label: "notouch",
       defaultValues: formData, // 💾 Rehydrate values
     });
   }, [selectedCountry, selectedCountry2, formRef]); // 👈 re-render on country switch
@@ -842,10 +734,10 @@ function App() {
         </div>
       </div>
       <KeepNoteInputs noteId={currentNote} onSave={handleSave} />
-      {/* <C1 />
+      <C1 />
       <C2 />
       <C3 />
-      <C4 /> */}
+      <C4 />
       <div className="border-box" />
       <div className=" bg-white" ref={formRef} id="form-container2" />
     </div>
